@@ -1,0 +1,18 @@
+.ToDoCard {
+	&:hover {
+		.ContentBtnAction {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+}
+
+.ContentBtnAction {
+	opacity: 0;
+	transform: translateY(0.5rem);
+	transition-property: opacity, transform;
+}
+
+.BtnAction {
+	--_offset-size: 0.125rem;
+}
