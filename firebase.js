@@ -1,7 +1,6 @@
 import { initializeApp } from 'firebase/app'
-import { getFirestor } from 'firebase/firestore'
+import { getFirestore } from 'firebase/firestore'
 
-// TODO: Replace the following with your app's Firebase project configuration
 const firebaseConfig = {
 	apiKey: process.env.NEXT_PUBLIC_APIKEY,
 	authDomain: process.env.NEXT_PUBLIC_AUTHDOMAIN,
@@ -13,6 +12,6 @@ const firebaseConfig = {
 	appId: process.env.NEXT_PUBLIC_APPID,
 }
 
-const app = initializeApp(firebaseConfig)
+export const app = initializeApp(firebaseConfig)
 
-export const db = getFirestor(app)
+export const database = getFirestore(app)
