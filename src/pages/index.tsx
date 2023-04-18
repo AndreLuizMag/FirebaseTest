@@ -1,93 +1,90 @@
-import ToDoCreate from '@/components/organisms/ToDoCreate'
-import ToDoCardList from '@/components/molecules/ToDoCardList'
 import Head from 'next/head'
-// import ToDoCard from '@/components/atoms/ToDoCard'
+import React, { useState } from 'react'
 
-// import style from './Style.module.scss'
-// import { useState } from 'react'
-
-// import { doc, setDoc } from 'firebase/firestore'
-// import { db } from '../../firebase'
+import { database } from '../../firebase'
+import { collection, addDoc } from 'firebase/firestore'
 
 export default function Home() {
-	// const [title, setTitle] = useState('')
-	// const [description, setDescription] = useState('')
+	const dbInstance = collection(database, 'posts')
+	const [message, setMessage] = useState('')
 
-	// const [todo, setTodo] = useState('')
-	// const [todoList, setTodoList] = useState({})
-	// console.log(todoList)
+	const [title, setTitle] = useState('')
+	const [desc, setDesc] = useState('')
 
-	// const handleAddTodo = async () => {
-	// 	if (!title) {
-	// 		return
-	// 	}
-	// 	const newKey =
-	// 		Object.keys(todoList).length === 0
-	// 			? 1
-	// 			: Math.max(...Object.keys(todoList)) + 1
-	// 	setTodoList({ ...todoList, [newKey]: title })
-	// 	setTitle('')
-	// 	const userRef = doc(db, 'user')
-	// }
+	const create = async () => {
+		console.log(dbInstance)
+		console.log('Title - ', title)
+		console.log('Description - ', desc)
+		try {
+			await addDoc(dbInstance, {
+				postTitle: title,
+				postDesc: desc,
+			})
+			setTitle('')
+			setDesc('')
+			setMessage('User added successfully')
+		} catch (error) {
+			setMessage('Error, consult console')
+			console.error(error)
+		}
+	}
 
 	return (
 		<>
 			<Head>
 				<title>Home</title>
 			</Head>
-			{/* <main>
-				<div className='bv-container-sm'>
-					<div className='bv-row align-stretch gap-lg'>
-						<div className='bv-col'>
-							<ToDoCard>
-								<div
-									className={`${style.ContentInput} ps-relative`}>
-									<input
-										type='text'
-										name='title'
-										id='title'
-										className={`title-sm`}
-										placeholder='Título'
-										onChange={(e) =>
-											setTitle(e.target.value)
-										}
-									/>
+			<main className='bgc-gray-95'>
+				<section className='p-block-16 bgc-gray-95'>
+					<div className='bv-container-sm'>
+						<div className='bv-row'>
+							<div className='bv-col ds-flex flow-col-nw gap-lg'>
+								<div className='ds-flex flow-col-nw gap-sm p-02 radius-lg bgc-primary-03'>
+									<span className='font-weight-bold'>
+										Console test:
+									</span>
+									<span>{message}</span>
 								</div>
-								<div
-									className={`${style.ContentInput} ps-relative`}>
-									<input
-										type='text'
-										name='description'
-										id='description'
-										className={`${style.Description} w-100 color-gray-50`}
-										placeholder='Crie um to do'
-									/>
-								</div>
-								<div
-									className={`w-100 ds-flex-end flow-row-nw gap-sm`}>
+								<form className='ds-flex flow-col-nw align-center gap-md'>
+									<div className='block-content sm w-100'>
+										<label htmlFor='name'>Title</label>
+										<input
+											type='text'
+											name='name'
+											id='name'
+											onChange={(e) =>
+												setTitle(e.target.value)
+											}
+											value={title}
+										/>
+									</div>
+									<div className='block-content sm w-100'>
+										<label htmlFor='description'>
+											Description
+										</label>
+										<input
+											type='text'
+											name='description'
+											id='description'
+											onChange={(e) =>
+												setDesc(e.target.value)
+											}
+											value={desc}
+										/>
+									</div>
 									<button
 										type='button'
-										className={`${style.BtnAction} sm`}
-										onClick={handleAddTodo}>
-										Create new To Do
+										className='w-100 primary justify-center'
+										onClick={create}>
+										Save
 									</button>
-								</div>
-							</ToDoCard>
-						</div>
-						<div className='bv-col ds-flex flow-col-nw gap-lg'>
-							{Object.keys(todoList).map((todo, i) => {
-								return (
-									<ToDoCardList
-										key={i}
-										title={todoList[todo]}
-										description=''
-									/>
-								)
-							})}
+								</form>
+							</div>
+							<div className='bv-col'></div>
 						</div>
 					</div>
-				</div>
-			</main> */}
+				</section>
+			</main>
 		</>
 	)
 }
