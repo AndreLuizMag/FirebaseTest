@@ -45,14 +45,14 @@ const ToDoCardCreate = ({
 					className='ps-absolute title-sm line-height-none'>
 					Título
 				</label> */}
-				<input
+				{/* <input
 					type='text'
 					name='title'
 					id='title'
 					className={`title-sm`}
 					placeholder='Título'
 					onChange={titleOnChange}
-				/>
+				/> */}
 			</div>
 			<div className={`${style.ContentInput} ps-relative`}>
 				{/* <label
@@ -60,7 +60,7 @@ const ToDoCardCreate = ({
 					className='ps-absolute color-gray-50 line-height-none'>
 					Crie um to do
 				</label> */}
-				<input
+				{/* <input
 					type='text'
 					name='description'
 					id='description'
@@ -68,7 +68,7 @@ const ToDoCardCreate = ({
 					placeholder='Crie um to do'
 					onChange={handleChildrenChanges}
 					value={childrenValue}
-				/>
+				/> */}
 			</div>
 			<div
 				className={`w-100 ds-flex-end flow-row-nw gap-sm`}>
