@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 
 import { database } from '../../firebase'
 import { collection, addDoc } from 'firebase/firestore'
-import CardSearch from '@/components/atoms/cardSearch'
+import CardSearch from '@/components/atoms/CardSearch'
 
 export default function Home() {
 	const dbInstance = collection(database, 'posts')
