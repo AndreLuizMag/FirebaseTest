@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 
 import { database } from '../../firebase'
 import { collection, addDoc } from 'firebase/firestore'
+import CardSearch from '@/components/atoms/cardSearch'
 
 export default function Home() {
 	const dbInstance = collection(database, 'posts')
@@ -11,6 +12,7 @@ export default function Home() {
 	const [title, setTitle] = useState('')
 	const [desc, setDesc] = useState('')
 
+	// Create
 	const create = async () => {
 		console.log(dbInstance)
 		console.log('Title - ', title)
@@ -29,22 +31,35 @@ export default function Home() {
 		}
 	}
 
+	// Update
+
+	// Read
+
+	// search
+	const [search, setSearch] = useState('')
+
+	// Delete
+
 	return (
 		<>
 			<Head>
 				<title>Home</title>
 			</Head>
 			<main className='bgc-gray-95'>
-				<section className='p-block-16 bgc-gray-95'>
-					<div className='bv-container-sm'>
+				<section>
+					<div className='bv-container-sm ds-flex flow-col-nw gap-xl'>
 						<div className='bv-row'>
-							<div className='bv-col ds-flex flow-col-nw gap-lg'>
+							<div className='bv-col'>
 								<div className='ds-flex flow-col-nw gap-sm p-02 radius-lg bgc-primary-03'>
 									<span className='font-weight-bold'>
 										Console test:
 									</span>
 									<span>{message}</span>
 								</div>
+							</div>
+						</div>
+						<div className='bv-row align-stretch gap-lg'>
+							<div className='bv-col ds-flex flow-col-nw gap-lg'>
 								<form className='ds-flex flow-col-nw align-center gap-md'>
 									<div className='block-content sm w-100'>
 										<label htmlFor='name'>Title</label>
@@ -80,7 +95,34 @@ export default function Home() {
 									</button>
 								</form>
 							</div>
-							<div className='bv-col'></div>
+							<div className='bv-col ds-flex flow-col-nw gap-md'>
+								<div className='block-content sm w-100'>
+									<label htmlFor='search'>
+										Description
+									</label>
+									<input
+										type='search'
+										name='search'
+										id='search'
+										onChange={(e) =>
+											setSearch(e.target.value)
+										}
+										value={search}
+									/>
+								</div>
+								<div className='ds-flex flow-col-nw gap-sm'>
+									<span>Resultados:</span>
+									<CardSearch title='Lorem ipsum'>
+										Lorem ipsum dolor sit amet consectetur
+										adipisicing elit. Quaerat hic dolorum,
+										animi eos omnis at delectus
+										exercitationem in nostrum laudantium
+										deserunt consequuntur veritatis optio
+										sint vero facilis. Quo, dolor
+										aspernatur!
+									</CardSearch>
+								</div>
+							</div>
 						</div>
 					</div>
 				</section>

@@ -1,0 +1,9 @@
+.CardSearch {
+	&:hover {
+		box-shadow: inset 0px 0px 0px 2px var(--bv-gray-80);
+	}
+
+	p {
+		line-height: 1.4;
+	}
+}
