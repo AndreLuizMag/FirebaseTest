@@ -61,8 +61,6 @@ export default function Home() {
 					}
 				})
 
-				console.log(notesData)
-
 				setPostsArray(notesData)
 				setSearchMessage('')
 			}
@@ -76,6 +74,45 @@ export default function Home() {
 
 	// search
 	const [search, setSearch] = useState('')
+	const [searchResults, setSearchResults] = useState<
+		Post[]
+	>([])
+
+	useEffect(() => {
+		// const unsub = onSnapshot(
+		// 	query(
+		// 		dbInstance,
+		// 		where('postTitle', '>=', 'Teste - 01')
+		// 	),
+		// 	(querySnapshot) => {
+		// 		querySnapshot.forEach((doc) => {
+		// 			console.log('Document data: ', doc.data())
+		// 		})
+		// 	}
+		// )
+
+		const searchPosts = async () => {
+			try {
+				const q = query(
+					dbInstance,
+					where('postTitle', '==', 'Teste - 0')
+				)
+				const querySnapshot = await getDocs(q)
+				const results = querySnapshot.docs.map((doc) => {
+					return {
+						id: doc.id,
+						title: doc.data().postTitle,
+						desc: doc.data().postDesc,
+					}
+				})
+				setSearchResults(results)
+				console.log('Results - ', searchResults)
+			} catch (error) {
+				console.error('Error searching posts:', error)
+			}
+		}
+		searchPosts()
+	}, [])
 
 	// Delete
 
@@ -136,9 +173,7 @@ export default function Home() {
 							</div>
 							<div className='bv-col ds-flex flow-col-nw gap-md'>
 								<div className='block-content sm w-100'>
-									<label htmlFor='search'>
-										Description
-									</label>
+									<label htmlFor='search'>Search</label>
 									<input
 										type='search'
 										name='search'
