@@ -9,6 +9,7 @@ import {
 	query,
 	where,
 	getDocs,
+	onSnapshot,
 } from 'firebase/firestore'
 import CardSearch from '@/components/atoms/CardSearch'
 
@@ -47,10 +48,9 @@ export default function Home() {
 	const [postsArray, setPostsArray] = useState<Post[]>([])
 
 	useEffect(() => {
-		const getNotes = async () => {
-			try {
-				const querySnapshot = await getDocs(dbInstance)
-
+		const unsubscribe = onSnapshot(
+			dbInstance,
+			(querySnapshot) => {
 				const notesData = querySnapshot.docs.map((doc) => {
 					return {
 						id: doc.id,
@@ -59,13 +59,16 @@ export default function Home() {
 					}
 				})
 
-				setPostsArray(notesData)
-			} catch (error) {
-				console.error('Error consult posts:', error)
-			}
-		}
+				console.log(notesData)
 
-		getNotes()
+				setPostsArray(notesData)
+			}
+		)
+
+		// Função de limpeza para desinscrever do snapshot quando o componente for desmontado
+		return () => {
+			unsubscribe()
+		}
 	}, [])
 
 	// search
