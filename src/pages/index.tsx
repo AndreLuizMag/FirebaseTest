@@ -1,9 +1,22 @@
 import Head from 'next/head'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { database } from '../../firebase'
-import { collection, addDoc } from 'firebase/firestore'
+import {
+	collection,
+	addDoc,
+	doc,
+	query,
+	where,
+	getDocs,
+} from 'firebase/firestore'
 import CardSearch from '@/components/atoms/CardSearch'
+
+interface Post {
+	id: string
+	title: string
+	desc: string
+}
 
 export default function Home() {
 	const dbInstance = collection(database, 'posts')
@@ -14,9 +27,6 @@ export default function Home() {
 
 	// Create
 	const create = async () => {
-		console.log(dbInstance)
-		console.log('Title - ', title)
-		console.log('Description - ', desc)
 		try {
 			await addDoc(dbInstance, {
 				postTitle: title,
@@ -34,6 +44,29 @@ export default function Home() {
 	// Update
 
 	// Read
+	const [postsArray, setPostsArray] = useState<Post[]>([])
+
+	useEffect(() => {
+		const getNotes = async () => {
+			try {
+				const querySnapshot = await getDocs(dbInstance)
+
+				const notesData = querySnapshot.docs.map((doc) => {
+					return {
+						id: doc.id,
+						title: doc.data().postTitle,
+						desc: doc.data().postDesc,
+					}
+				})
+
+				setPostsArray(notesData)
+			} catch (error) {
+				console.error('Error consult posts:', error)
+			}
+		}
+
+		getNotes()
+	}, [])
 
 	// search
 	const [search, setSearch] = useState('')
@@ -112,7 +145,7 @@ export default function Home() {
 								</div>
 								<div className='ds-flex flow-col-nw gap-sm'>
 									<span>Resultados:</span>
-									<CardSearch title='Lorem ipsum'>
+									{/* <CardSearch title='Lorem ipsum'>
 										Lorem ipsum dolor sit amet consectetur
 										adipisicing elit. Quaerat hic dolorum,
 										animi eos omnis at delectus
@@ -120,7 +153,21 @@ export default function Home() {
 										deserunt consequuntur veritatis optio
 										sint vero facilis. Quo, dolor
 										aspernatur!
-									</CardSearch>
+									</CardSearch> */}
+									{/* {searchResults.map((post) => (
+										<CardSearch
+											key={post.id}
+											title={post.postTitle}>
+											{post.postDesc}
+										</CardSearch>
+									))} */}
+									{postsArray.map((post) => (
+										<CardSearch
+											key={post.id}
+											title={post.title}>
+											{post.desc}
+										</CardSearch>
+									))}
 								</div>
 							</div>
 						</div>
