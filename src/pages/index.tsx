@@ -46,6 +46,8 @@ export default function Home() {
 
 	// Read
 	const [postsArray, setPostsArray] = useState<Post[]>([])
+	const [searchMessage, setSearchMessage] =
+		useState('Carregando...')
 
 	useEffect(() => {
 		const unsubscribe = onSnapshot(
@@ -62,6 +64,7 @@ export default function Home() {
 				console.log(notesData)
 
 				setPostsArray(notesData)
+				setSearchMessage('')
 			}
 		)
 
@@ -162,15 +165,20 @@ export default function Home() {
 											key={post.id}
 											title={post.postTitle}>
 											{post.postDesc}
-										</CardSearch>
-									))} */}
-									{postsArray.map((post) => (
-										<CardSearch
-											key={post.id}
-											title={post.title}>
-											{post.desc}
-										</CardSearch>
-									))}
+											</CardSearch>
+										))} */}
+									<div
+										className='ovf-auto ds-flex flow-col-nw gap-sm'
+										style={{ maxHeight: '50vh' }}>
+										{searchMessage}
+										{postsArray.map((post) => (
+											<CardSearch
+												key={post.id}
+												title={post.title}>
+												{post.desc}
+											</CardSearch>
+										))}
+									</div>
 								</div>
 							</div>
 						</div>
