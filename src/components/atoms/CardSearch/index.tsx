@@ -18,10 +18,10 @@ const CardSearch = ({
 		<Link
 			href={href ? href : '#'}
 			className={`${style.CardSearch} p-04 ds-flex-start flow-col-nw gap-sm bgc-primary-03 radius-md text-decoration-none duration-none property-shadow ease-in-out`}>
-			<h4 className='title-sm'>
+			<h4 className='title-xs'>
 				{title ? title : 'Title'}
 			</h4>
-			<p className='color-gray-50 font-weight-400'>
+			<p className='font-weight-400 color-gray-50'>
 				{children ? children : 'Description'}
 			</p>
 		</Link>

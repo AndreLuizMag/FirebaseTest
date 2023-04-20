@@ -12,6 +12,7 @@ import {
 	onSnapshot,
 } from 'firebase/firestore'
 import CardSearch from '@/components/atoms/CardSearch'
+import CardAlert from '@/components/atoms/CardAlert'
 
 interface Post {
 	id: string
@@ -66,53 +67,70 @@ export default function Home() {
 			}
 		)
 
-		// Função de limpeza para desinscrever do snapshot quando o componente for desmontado
 		return () => {
 			unsubscribe()
 		}
 	}, [])
 
-	// search
+	// Search
 	const [search, setSearch] = useState('')
 	const [searchResults, setSearchResults] = useState<
 		Post[]
 	>([])
 
-	useEffect(() => {
-		// const unsub = onSnapshot(
-		// 	query(
-		// 		dbInstance,
-		// 		where('postTitle', '>=', 'Teste - 01')
-		// 	),
-		// 	(querySnapshot) => {
-		// 		querySnapshot.forEach((doc) => {
-		// 			console.log('Document data: ', doc.data())
-		// 		})
-		// 	}
-		// )
+	const handleSearchChange = (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
+		const { value } = event.target
+		setSearch(value)
 
-		const searchPosts = async () => {
-			try {
-				const q = query(
-					dbInstance,
-					where('postTitle', '==', 'Teste - 0')
-				)
-				const querySnapshot = await getDocs(q)
-				const results = querySnapshot.docs.map((doc) => {
-					return {
-						id: doc.id,
-						title: doc.data().postTitle,
-						desc: doc.data().postDesc,
-					}
-				})
-				setSearchResults(results)
-				console.log('Results - ', searchResults)
-			} catch (error) {
-				console.error('Error searching posts:', error)
-			}
-		}
-		searchPosts()
-	}, [])
+		const filterResults = postsArray.filter(
+			(obj) =>
+				obj.title
+					.toLocaleLowerCase()
+					.includes(value.toLocaleLowerCase()) ||
+				obj.desc
+					.toLocaleLowerCase()
+					.includes(value.toLocaleLowerCase())
+		)
+		setSearchResults(filterResults)
+	}
+
+	// useEffect(() => {
+	// 	// const unsub = onSnapshot(
+	// 	// 	query(
+	// 	// 		dbInstance,
+	// 	// 		where('postTitle', '>=', 'Teste - 01')
+	// 	// 	),
+	// 	// 	(querySnapshot) => {
+	// 	// 		querySnapshot.forEach((doc) => {
+	// 	// 			console.log('Document data: ', doc.data())
+	// 	// 		})
+	// 	// 	}
+	// 	// )
+
+	// 	const searchPosts = async () => {
+	// 		try {
+	// 			const q = query(
+	// 				dbInstance,
+	// 				where('posts', '==', 'G3WW3mAfqL8O5m8nXhC4')
+	// 			)
+	// 			const querySnapshot = await getDocs(q)
+	// 			const results = querySnapshot.docs.map((doc) => {
+	// 				return {
+	// 					id: doc.id,
+	// 					title: doc.data().postTitle,
+	// 					desc: doc.data().postDesc,
+	// 				}
+	// 			})
+	// 			setSearchResults(results)
+	// 			console.log('Results - ', searchResults)
+	// 		} catch (error) {
+	// 			console.error('Error searching posts:', error)
+	// 		}
+	// 	}
+	// 	searchPosts()
+	// }, [])
 
 	// Delete
 
@@ -178,14 +196,12 @@ export default function Home() {
 										type='search'
 										name='search'
 										id='search'
-										onChange={(e) =>
-											setSearch(e.target.value)
-										}
+										onChange={handleSearchChange}
 										value={search}
 									/>
 								</div>
 								<div className='ds-flex flow-col-nw gap-sm'>
-									<span>Resultados:</span>
+									<span>Results:</span>
 									{/* <CardSearch title='Lorem ipsum'>
 										Lorem ipsum dolor sit amet consectetur
 										adipisicing elit. Quaerat hic dolorum,
@@ -206,13 +222,28 @@ export default function Home() {
 										className='ovf-auto ds-flex flow-col-nw gap-sm'
 										style={{ maxHeight: '50vh' }}>
 										{searchMessage}
-										{postsArray.map((post) => (
+										{search ? (
+											searchResults.length > 0 ? (
+												searchResults.map((post) => (
+													<CardSearch
+														key={post.id}
+														title={post.title}>
+														{post.desc}
+													</CardSearch>
+												))
+											) : (
+												<CardAlert>
+													No results found
+												</CardAlert>
+											)
+										) : null}
+										{/* {postsArray.map((post) => (
 											<CardSearch
 												key={post.id}
 												title={post.title}>
 												{post.desc}
 											</CardSearch>
-										))}
+										))} */}
 									</div>
 								</div>
 							</div>
