@@ -5,10 +5,6 @@ import { database } from '../../firebase'
 import {
 	collection,
 	addDoc,
-	doc,
-	query,
-	where,
-	getDocs,
 	onSnapshot,
 } from 'firebase/firestore'
 import CardSearch from '@/components/atoms/CardSearch'

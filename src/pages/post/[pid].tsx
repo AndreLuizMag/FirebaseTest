@@ -3,16 +3,7 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 
 import { database } from '../../../firebase'
-import {
-	collection,
-	addDoc,
-	doc,
-	query,
-	where,
-	getDocs,
-	getDoc,
-	onSnapshot,
-} from 'firebase/firestore'
+import { collection, doc, getDoc } from 'firebase/firestore'
 
 interface Post {
 	id: string
