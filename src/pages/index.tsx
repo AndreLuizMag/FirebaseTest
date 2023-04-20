@@ -96,42 +96,6 @@ export default function Home() {
 		setSearchResults(filterResults)
 	}
 
-	// useEffect(() => {
-	// 	// const unsub = onSnapshot(
-	// 	// 	query(
-	// 	// 		dbInstance,
-	// 	// 		where('postTitle', '>=', 'Teste - 01')
-	// 	// 	),
-	// 	// 	(querySnapshot) => {
-	// 	// 		querySnapshot.forEach((doc) => {
-	// 	// 			console.log('Document data: ', doc.data())
-	// 	// 		})
-	// 	// 	}
-	// 	// )
-
-	// 	const searchPosts = async () => {
-	// 		try {
-	// 			const q = query(
-	// 				dbInstance,
-	// 				where('posts', '==', 'G3WW3mAfqL8O5m8nXhC4')
-	// 			)
-	// 			const querySnapshot = await getDocs(q)
-	// 			const results = querySnapshot.docs.map((doc) => {
-	// 				return {
-	// 					id: doc.id,
-	// 					title: doc.data().postTitle,
-	// 					desc: doc.data().postDesc,
-	// 				}
-	// 			})
-	// 			setSearchResults(results)
-	// 			console.log('Results - ', searchResults)
-	// 		} catch (error) {
-	// 			console.error('Error searching posts:', error)
-	// 		}
-	// 	}
-	// 	searchPosts()
-	// }, [])
-
 	// Delete
 
 	return (

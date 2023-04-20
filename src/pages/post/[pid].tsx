@@ -23,6 +23,7 @@ interface Post {
 const Post = () => {
 	const router = useRouter()
 	const { pid } = router.query as { pid: string }
+	const [message, setMessage] = useState('Carregando...')
 
 	const [post, setPost] = useState<Post | null>(null)
 
@@ -33,7 +34,6 @@ const Post = () => {
 					collection(database, 'posts'),
 					pid
 				)
-				console.log(postRef)
 				const postDoc = await getDoc(postRef)
 
 				if (postDoc.exists()) {
@@ -45,11 +45,11 @@ const Post = () => {
 					}
 
 					setPost(post)
-					console.log(post)
 				} else {
-					console.log('Documento não encontrado')
+					setMessage('Post inexistente')
 				}
 			} catch (error) {
+				setMessage('Erro na busca, consulte o console')
 				console.error('Erro ao buscar post:', error)
 			}
 		}
@@ -83,7 +83,7 @@ const Post = () => {
 									<p>{post.desc}</p>
 								</div>
 							) : (
-								<p>Carregando...</p>
+								<span>{message}</span>
 							)}
 						</div>
 					</div>
