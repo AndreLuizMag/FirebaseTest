@@ -227,6 +227,7 @@ export default function Home() {
 												searchResults.map((post) => (
 													<CardSearch
 														key={post.id}
+														href={`post/${post.id}`}
 														title={post.title}>
 														{post.desc}
 													</CardSearch>
